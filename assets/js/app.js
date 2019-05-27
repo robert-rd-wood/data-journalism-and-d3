@@ -96,10 +96,10 @@ function makeResponsive() {
         chartGroup.append("g")
             .call(yAxis);
 
-        // line generator
-        var line = d3.line()
-            .x(d => xLinearScale(d.poverty))
-            .y(d => yLinearScale(d.healthcare));
+        // // line generator
+        // var line = d3.line()
+        //     .x(d => xLinearScale(d.poverty))
+        //     .y(d => yLinearScale(d.healthcare));
 
         // append circles
         var circlesGroup = chartGroup.selectAll("circle")
@@ -108,17 +108,27 @@ function makeResponsive() {
             .append("circle")
             .attr("cx", d => xLinearScale(d.poverty))
             .attr("cy", d => yLinearScale(d.healthcare))
-            .attr("r", "10")
-            .attr("fill", "#8cc0ce")
-            .attr("stroke-width", "1")
-            .attr("stroke", "white");
+            .attr("r", svgWidth/80)  // Circle size based on svg width
+            .attr("class", "stateCircle")
+            .attr("stroke-width", "1");
+
+        // Add Text Labels
+        chartGroup.selectAll("text")
+            .data(data)
+            .enter()
+            .append("text")
+            .text(d => d.abbr)
+            .attr("x", d => xLinearScale(d.poverty))  // Returns scaled location of x
+            .attr("y", d => yLinearScale(d.healthcare)+(svgHeight/160))  // Returns scaled location of y
+            .attr("class", "stateText")
+            .attr("font-size", `${svgWidth/80}px`);  // Font size based on circle radius
 
         // Step 1: Initialize Tooltip
         var toolTip = d3.tip()
-            .attr("class", "tooltip")
+            .attr("class", "d3-tip")
             .offset([40,-60])
             .html(function(d) {
-                return (`<strong>${d.state}</strong></br>Poverty: ${d.poverty}%</br>Obesity: ${d.obesity}`);
+                return (`<strong>${d.state}</strong></br>Poverty: ${d.poverty}%</br>Obesity: ${d.obesity}%`);
             });
 
         // Step 2: Create the tooltip in chartGroup.
@@ -126,7 +136,7 @@ function makeResponsive() {
 
         // Step 3: Create "mouseover" event listener to display tooltip
         circlesGroup.on("mouseover", function(d) {
-        toolTip.show(d, this);
+            toolTip.show(d, this);
         })
         // Step 4: Create "mouseout" event listener to hide tooltip
         .on("mouseout", function(d) {
