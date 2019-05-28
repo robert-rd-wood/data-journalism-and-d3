@@ -94,8 +94,12 @@ function makeResponsive() {
         chartGroup.append("g")
             .call(yAxis);
 
+        // Append SECOND group element
+        var chartGroup2 = svg.append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
         // append circles
-        var circlesGroup = chartGroup.selectAll("circle")
+        var circlesGroup = chartGroup2.selectAll("circle")
             .data(data)
             .enter()
             .append("circle")
@@ -105,10 +109,11 @@ function makeResponsive() {
             .attr("class", "stateCircle")
             .attr("stroke-width", "1");
 
-        console.log(circlesGroup);
+        // console.log(circlesGroup);
+        console.log(chartGroup);
 
         // Add Text Labels
-        var textGroup = chartGroup.selectAll("text")
+        var textGroup = chartGroup2.selectAll("text")
             .data(data)
             .enter()
             .append("text")
@@ -119,6 +124,7 @@ function makeResponsive() {
             .attr("font-size", `${svgWidth/80}px`);  // Font size scaled by circle radius
 
         console.log(textGroup);
+        data.forEach(d => console.log(d.abbr));
 
         // Step 1: Initialize Tooltip
         var toolTip = d3.tip()
