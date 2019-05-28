@@ -133,7 +133,7 @@ function makeResponsive() {
         chartGroup.call(toolTip);
 
         // Step 3: Create "mouseover" event listener to display tooltip
-        circlesGroup.on("mouseover", function(d) {
+        textGroup.on("mouseover", function(d) {
             toolTip.show(d, this);
         })
         // Step 4: Create "mouseout" event listener to hide tooltip
