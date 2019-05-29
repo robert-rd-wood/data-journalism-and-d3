@@ -83,8 +83,12 @@ function makeResponsive() {
             .range([height, 0]);
 
         // create axes
-        var xAxis = d3.axisBottom(xLinearScale).ticks(6);
-        var yAxis = d3.axisLeft(yLinearScale).ticks(6);
+        // var xAxis = d3.axisBottom(xLinearScale).ticks(6);
+        // var yAxis = d3.axisLeft(yLinearScale).ticks(6);
+        
+        // create axes
+        var xAxis = d3.axisBottom(xLinearScale);
+        var yAxis = d3.axisLeft(yLinearScale);
 
         // append axes
         chartGroup.append("g")
