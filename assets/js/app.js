@@ -145,13 +145,13 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
   }
 
   if (chosenYAxis === "smokes") {
-    var yLabel = "Smokes: "
+    var yLabel = "Smokes: ";
   }
   else if (chosenYAxis === "obesity") {
     var yLabel = "Obesity: ";
   }
   else {
-    var yLabel = "Lacks Healthcare: "
+    var yLabel = "Lacks Healthcare: ";
   }
 
   var toolTip = d3.tip()
@@ -165,10 +165,20 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
   circlesGroup.on("mouseover", function(data) {
     toolTip.show(data, this);
+    d3.select(this)
+      .attr("r",14)
+      .attr("opacity",".7")
+      .attr("stroke","#4f8da7")
+      .attr("stroke-width","2");
   })
     // onmouseout event
-    .on("mouseout", function(data) {
+    .on("mouseout", function(data,index) {
       toolTip.hide(data);
+      d3.select(this)
+        .attr("r", 15)
+        .attr("opacity","1")
+        .attr("stroke","#e3e3e3")
+        .attr("stroke-width","1");
     });
 
   return circlesGroup;
@@ -220,7 +230,8 @@ d3.csv("/assets/data/data.csv")
     .attr("cy", d => yLinearScale(d[chosenYAxis]))
     .attr("r", 15)
     .attr("class", "stateCircle")
-    .attr("stroke-width", "1");
+    .attr("stroke-width", "1")
+    .attr("stroke","#e3e3e3");
 
   // append state abbreviations
   var textGroup = chartGroup2.selectAll("text")
