@@ -134,14 +134,17 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
   if (chosenXAxis === "poverty") {
     var xLabel = "Poverty: ";
     var xPct = "%";
+    var dollar = "";
   }
   else if (chosenXAxis === "age") {
     var xLabel = "Median Age: ";
     var xPct = "";
+    var dollar = "";
   }
   else {
     var xLabel = "Median Income: ";
     var xPct = "";
+    var dollar = "$";
   }
 
   if (chosenYAxis === "smokes") {
@@ -158,7 +161,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     .attr("class", "d3-tip")
     .direction("w")
     .html(function(d) {
-      return (`${d.state}<br>${xLabel} ${d[chosenXAxis]}${xPct}<br>${yLabel} ${d[chosenYAxis]}%`);
+      return (`<strong>${d.state}</strong><br>${xLabel} ${dollar}${d[chosenXAxis]}${xPct}<br>${yLabel} ${d[chosenYAxis]}%`);
     });
 
   circlesGroup.call(toolTip);
@@ -167,12 +170,12 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     toolTip.show(data, this);
     d3.select(this)
       .attr("r",14)
-      .attr("opacity",".7")
+      .attr("opacity",".8")
       .attr("stroke","#4f8da7")
       .attr("stroke-width","2");
   })
     // onmouseout event
-    .on("mouseout", function(data,index) {
+    .on("mouseout", function(data) {
       toolTip.hide(data);
       d3.select(this)
         .attr("r", 15)
